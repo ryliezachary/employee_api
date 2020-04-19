@@ -13,12 +13,3 @@ class Connect extends PDO
 
 ?>
 
-<!--
-mysql://b395d6de31dcf5:9fa27eb9@us-cdbr-iron-east-01.cleardb.net/heroku_8ab616a97278496?reconnect=true
-
-USERNAME : b395d6de31dcf5
-Password : 9fa27eb9
-host : us-cdbr-iron-east-01.cleardb.net
-db name ; heroku_8ab616a97278496 -->
-
-
