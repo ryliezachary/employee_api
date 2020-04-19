@@ -1,6 +1,5 @@
 <?php
 require_once 'config.php';
-$id = $_GET['id'];
 
 class API {
 	public function Select($id = ''){
@@ -10,21 +9,31 @@ class API {
 		
 		
 		if ($id != ''){
+			
 			$data = $db->prepare("select * from users where id='" . $id . "'");
+			$data->execute();
+			$OutputData = $data->fetch(PDO::FETCH_ASSOC);	
+			$users = array(
+				'id' => $OutputData['id'],
+				'name' => $OutputData['name'],
+				'age' => $OutputData['age']
+			);
 		}
 		else
 		{
 			$data = $db->prepare("select * from users");
-		}
-		$data->execute();
+			$data->execute();
+			while ($OutputData = $data->fetch(PDO::FETCH_ASSOC)){
+				$users[$OutputData['id']] = array(
+					'id' => $OutputData['id'],
+					'name' => $OutputData['name'],
+					'age' => $OutputData['age']
+				);
+			}			
+			
+		}		
 		//while ($OutputData['id'] = $data->fetch(PDO::FETCH_ASSOC)){
-		while ($OutputData = $data->fetch(PDO::FETCH_ASSOC)){
-	$users[$OutputData['id']] = array(
-		'id' => $OutputData['id'],
-		'name' => $OutputData['name'],
-		'age' => $OutputData['age']
-			);
-		}
+		
 		return json_encode($users);
 	}
 }
@@ -32,7 +41,7 @@ class API {
 $API = new API;
 header('Content-Type: application/json');
 
-$id = isset($_GET["id"]) ? $_GET["id"] : "";
+$id = isset($_GET["id"]) ? $_GET["id"] : '';
 echo $API->Select($id);
 
 
