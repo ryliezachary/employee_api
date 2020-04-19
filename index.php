@@ -1,12 +1,21 @@
 <?php
 require_once 'config.php';
+$id = $_GET['id'];
 
 class API {
-	public function Select(){
+	public function Select($id = ''){
 		$db = new Connect;
 		
 		$user = array();
-		$data = $db->prepare('select * from users');
+		
+		
+		if ($id != ''){
+			$data = $db->prepare("select * from users where id='" . $id . "'");
+		}
+		else
+		{
+			$data = $db->prepare("select * from users");
+		}
 		$data->execute();
 		//while ($OutputData['id'] = $data->fetch(PDO::FETCH_ASSOC)){
 		while ($OutputData = $data->fetch(PDO::FETCH_ASSOC)){
@@ -22,7 +31,9 @@ class API {
 
 $API = new API;
 header('Content-Type: application/json');
-echo $API->Select();
+
+$id = isset($_GET["id"]) ? $_GET["id"] : "";
+echo $API->Select($id);
 
 
-?>
+ ?>
